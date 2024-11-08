@@ -10,12 +10,11 @@ import java.util.Scanner;
  */
 public class Reader {
   /**
-   * Lee un archivo de texto con 2^limite números y los guarda en una lista
+   * Lee un archivo de texto con |N| = 10^6 números y los guarda en una lista
    * @param filename El nombre del archivo leído
    * @param list La lista donde se guardan los números
-   * @param limite La potencia a la que se eleva
    */
-  public void read(String filename, ArrayList<Long> list, int limite) {
+  public void read(String filename, ArrayList<Integer> list) {
     File fichero = new File(filename);
     Scanner s = null;
     int index = 0;
@@ -23,10 +22,12 @@ public class Reader {
       // Leemos el contenido del fichero
       s = new Scanner(fichero);
 
+      int limit = (int) Math.pow(10,6);
+
       // Leemos linea a linea el fichero
-      while (s.hasNextLine() && index<limite) {
+      while (s.hasNextLine() && index<limit) {
         String linea = s.nextLine(); 	// Guardamos la linea en un String
-        long number = Long.parseLong(linea);
+        int number = Integer.parseInt(linea);
         list.add(number);
         index++;
       }

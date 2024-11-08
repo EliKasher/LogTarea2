@@ -5,10 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ef13e48c-5161-4b31-81dc-67edf19b693d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/trees/SplayNode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/trees/ABBTree.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/trees/ABB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/trees/ABB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README" beforeDir="false" afterPath="$PROJECT_DIR$/README" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/trees/ABB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/trees/ABBNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/trees/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/trees/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/trees/Reader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/trees/Reader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/trees/SplayNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/trees/SplayNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/trees/SplayTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/trees/SplayTree.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -71,7 +74,14 @@
       <updated>1728660989214</updated>
       <workItem from="1728660990286" duration="7933000" />
       <workItem from="1728744834321" duration="7648000" />
-      <workItem from="1728767906277" duration="3635000" />
+      <workItem from="1728767906277" duration="8368000" />
+      <workItem from="1729102258308" duration="254000" />
+      <workItem from="1729133693947" duration="9000" />
+      <workItem from="1729547054037" duration="4509000" />
+      <workItem from="1729808407918" duration="689000" />
+      <workItem from="1730306888656" duration="12018000" />
+      <workItem from="1730752065102" duration="1192000" />
+      <workItem from="1731093410271" duration="6605000" />
     </task>
     <servers />
   </component>

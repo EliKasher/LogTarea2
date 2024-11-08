@@ -1,24 +1,24 @@
 package trees;
 
 /**
- * Clase para los Splay Nodes.
+ * Clase para los ABB Nodes.
  * O(log n)
  */
-public class SplayNode {
+public class ABBNode {
   // El valor contenido en el nodo actual
   public int value;
   // El nodo izquierdo (null o elementos menores a value)
-  public SplayNode left;
+  public ABBNode left;
   // El nodo derecho (null o elementos mayores a value)
-  public SplayNode right;
+  public ABBNode right;
   // El nodo que está por encima del actual
-  public SplayNode parent;
+  public ABBNode parent;
 
   /**
-   * El constructor del SplayNode.
+   * El constructor del ABBNode.
    * @param val El valor que posee el nodo actual.
    */
-  public SplayNode(int val) {
+  public ABBNode(int val) {
     this.value = val;
   }
 

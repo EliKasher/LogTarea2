@@ -1,34 +1,34 @@
 package trees;
 
 /**
- * Clase para un árbol binario clásico.
+ * Clase que describe los ABBTrees.
  */
-public class ABB {
-  // El valor contenido en el nodo actual
-  public int value;
-  // El árbol izquierdo (null o elementos menores a value)
-  public ABB left;
-  // El árbol derecho (null o elementos mayores a value)
-  public ABB right;
+public class ABBTree {
+  // La raíz de este arbol
+  public ABBNode root;
 
   /**
-   * Constructor del ABB.
-   * @param val El valor que posee el árbol actual.
+   * El constructor para el ABB Tree.
    */
-  public ABB(int val) {
-    value = val;
+  public ABBTree() {
+    root = null;
   }
 
   /**
-   * Búsqueda en un árbol binario, si no está en el nodo actual,
-   * busca en los hijos, dependiendo si el valor es mayor o menor
-   * al actual.
-   * @param root La raíz del árbol.
-   * @param x El valor buscado.
-   * @return True si encontró el valor.
+   * Constructor para el ABBTree.
+   * @param rt La raíz del árbol.
    */
-  public boolean search(ABB root, int x) {
-    ABB actNode = root;
+  public ABBTree(ABBNode rt) {
+    this.root = rt;
+  }
+
+  /**
+   * Busca como en un ABB clásico.
+   * @param x El valor buscado.
+   * @return True si encuentra x.
+   */
+  public boolean search(int x) {
+    ABBNode actNode = root;
 
     // Mientras aún exista árbol
     while (actNode != null) {
@@ -41,27 +41,30 @@ public class ABB {
         actNode = actNode.right; // Debe estar a la derecha
       }
     }
-    // Si se llega a un nodo nulo, es porque no se encontró
+
     return false;
   }
 
   /**
-   * Inserta el elemento x en el arbol entregado.
-   * @param root La raíz del árbol.
-   * @param x El valor a insertar.
-   * @return El nuevo arbol con x insertado.
+   * Inserta un elemento x al árbol como en un ABB normal, pero
+   * hace splay al final.
+   *
+   * @param x El valor insertado.
+   * @return El árbol con x insertado.
    */
-  public ABB insert(ABB root, int x) {
+  public ABBNode insert(int x) {
     // El nodo actual
-    ABB actNode = root;
+    ABBNode actNode = root;
     // El nodo padre
-    ABB parentNode = null;
+    ABBNode parentNode = null;
 
     // El nodo que contiene el nuevo nodo creado
-    ABB temp = new ABB(x);
+    ABBNode temp = new ABBNode(x);
 
     // Si no hay nada a la raíz se entrega el nodo creado
     if (actNode == null) {
+      root = temp;
+
       return temp;
     }
 
@@ -86,7 +89,11 @@ public class ABB {
       parentNode.left = temp;
     }
 
+    // Se le asigna su nodo padre
+    temp.parent = parentNode;
+
     // Se devuelve el nuevo arbol
     return root;
   }
+
 }

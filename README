@@ -1,6 +1,6 @@
 # Tarea 2 : Splay Trees y ABB's
 
-Este proyecto contiene los archivos necesarios para poder realizar búsquedas en M-Trees construídos por los algoritmos Ciaccia-Patella (CP) y Sexton-Swinbank (SS).
+Este proyecto contiene los archivos necesarios para poder realizar búsquedas SplayTrees y ABBs.
 
 ## Requisitos
 
@@ -10,22 +10,20 @@ Este proyecto contiene los archivos necesarios para poder realizar búsquedas en
 
 1. Clonar el repositorio o descargar el código fuente.
 
-2. Descargar los conjuntos de experimentación, descomprimirlos y colocarlos en la carpeta inputs. Link:
+2. Descargar los valores de experimentación, descomprimirlos y colocarlos en la carpeta inputs. Link:
 
 3. Abrir una terminal en la carpeta del proyecto.
 
-4. Ir a la carpeta src\main\java\hash.
+4. Ir a la carpeta src\main\java\trees.
 
 5. Abrir el archivo Main.java, configurar qué tamaño de input se quiere utilizar y dónde se quieren guardar los resultados (Más información dentro de la documentación del archivo).
 
 6. Ejecutar el archivo Main.java (Recomendación: Ejecutar el programa en el IDE IntelliJ)
 
-7. Al ejecutar el archivo, se construirán los respectivos hashes y c_max con el tamaño de input seleccionado y automáticamente se realizarán las inserciones en cada uno, las cuales vienen predefinidas por el archivo inputs/numbers.txt.
+7. Al ejecutar el archivo, se construirán los respectivos árboles con el tamaño de input seleccionado como se explica en Main.java y seleccionar el experimento a realizar. Automáticamente se realizarán las inserciones y búsquedas en cada uno, las cuales vienen predefinidas por el archivo inputs/numbers.txt.
 
 8. Los resultados quedarán almacenados en la carpeta results. (Ejemplo: results/inserts_10.txt ,para inserciones en c_max hashes para cada c_max creado y con un input de tamaño 2^10)
 
 #Autores
 
 - Evelyn Ávila
--
--
