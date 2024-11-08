@@ -41,8 +41,6 @@ public class Main {
    * Crea un SplayTree y un ABB para cada rango de testeo
    */
   public static void createTrees() {
-    ArrayList<SplayTree> st = new ArrayList<>();
-
     for (int i = 0; i < dec_test.size(); i++) {
       st.add(new SplayTree());
       abb.add(new ABBTree());
@@ -115,6 +113,9 @@ public class Main {
    * Se inserta los valores de acuerdo al criterio de experimentación 3
    */
   public static void insertB() {
+    // Se ordenan los valores
+    Collections.sort(numbers);
+
     // Para cada dec_test inserción en su SplayTree correspondiente
     for (int i = 0; i < dec_test.size(); i++) {
       // El arbol actual para el dec_test*N hasta el que se testea
@@ -134,6 +135,9 @@ public class Main {
    * Se inserta los valores de acuerdo al criterio de experimentación 4
    */
   public static void insertC() {
+    // Se ordena la lista
+    Collections.sort(numbers);
+
     // Para cada dec_test inserción en su SplayTree correspondiente
     for (int i = 0; i < dec_test.size(); i++) {
       // El arbol actual para el dec_test*N hasta el que se testea
@@ -273,7 +277,7 @@ public class Main {
     // Se insertan los valores dec_test
     // Seleccionar aquel o aquellos tramos que se quiera testear
     // El resto mantenerlos comentados
-    dec_test.add(0.1);
+    //dec_test.add(0.1);
     //dec_test.add(0.2);
     //dec_test.add(0.3);
     //dec_test.add(0.4);
@@ -285,7 +289,7 @@ public class Main {
     //dec_test.add(1.0);
 
     // Se insertan las constantes para cada valor de dec_test
-    ctes.add(1.00001);
+    //ctes.add(1.00001);
     //ctes.add(1.000005);
     //ctes.add(1.00000333);
     //ctes.add(1.0000025);
@@ -297,15 +301,15 @@ public class Main {
     //ctes.add(1.000001);
 
     // Se crea 1 arbol para cada dec_test
-    createTrees();
+    //createTrees();
 
     // TESTEAR 1 EXPERIMENTO A LA VEZ
 
-    reader.read("inputs/numbers.txt", numbers);
+    //reader.read("inputs/numbers.txt", numbers);
 
     // Testeo para el experimento 1
-    insertA();
-    searchA("results/splay1.txt", M);
+    //insertA();
+    //searchA("results/splay1.txt", M);
 
     // Testeo para el experimento 2
     // insertA();
