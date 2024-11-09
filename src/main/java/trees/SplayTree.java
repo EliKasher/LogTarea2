@@ -147,7 +147,7 @@ public class SplayTree {
       if (actNode.value == x) {
         root = splay(actNode);
         return true;
-      } else if (actNode.value < x) { // Si x es menor al valor actual
+      } else if (actNode.value > x) { // Si x es menor al valor actual
         actNode = actNode.left; // Debe estar a la izq
       } else { // Si x es mayor al valor actual
         actNode = actNode.right; // Debe estar a la derecha
@@ -188,9 +188,9 @@ public class SplayTree {
       // Se actualiza el nodo padre, ya que necesitamos actualizarlo posteriormente
       parentNode = actNode;
 
-      if (actNode.value < x) { // Si es menor al val actual va a la izquierda
+      if (actNode.value > x) { // Si es menor al val actual va a la izquierda
         actNode = actNode.left;
-      } else if (actNode.value > x) { // Si es mayor al val actual va a la derecha
+      } else if (actNode.value < x) { // Si es mayor al val actual va a la derecha
         actNode = actNode.right;
       } else { // Es igual
         return root; // Ya existe

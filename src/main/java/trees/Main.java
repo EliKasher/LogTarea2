@@ -77,10 +77,42 @@ public class Main {
     return C/Math.pow(i+1, 2);
   }
 
-  public static ArrayList<Integer> generateProb(int actLimit, int M, String use) {
+  /**
+   * @param actLimit El límite de valores que están siendo utilizados actualmente,
+   *                 determinado por N*act_dec_test.
+   * @param index El índice correspondiente a la constante que se debe aplicar
+   *              para mantener la probabilidad entre [0,1].
+   * @param M El número de veces que se debe buscar cada elemento.
+   * @param use un string que indica qué arreglo se está usando para las probabilidades.
+   * @return La lista con elementos a buscar, determinado por una probabilidad f(i), desordenada.
+   */
+  public static ArrayList<Integer> generateProb(int actLimit, int index, int M, String use) {
     ArrayList<Integer> searchOrder = new ArrayList<>();
 
+    if (use.equals("C")) {
+      // El arreglo para el dec_test actual
+      ArrayList<Integer> actList = c.get(index);
 
+      // Para cada valor i-esimo se añade f(i) veces
+      for (int i = 0; i < actList.size(); i++) {
+        // se calcula la probabilidad
+        double prob = f(ctes.get(index), i);
+        // se añade el valor floor(M*prob) veces
+        for (int j = 0; j < Math.floor(M*prob); j++) {
+          searchOrder.add(actList.get(i));
+        }
+      }
+    } if (use.equals("B")){
+      // Para cada valor i-esimo se añade f(i) veces
+      for (int i = 0; i < actLimit; i++) {
+        // se calcula la probabilidad
+        double prob = f(ctes.get(index), i);
+        // se añade el valor floor(M*prob) veces
+        for (int j = 0; j < Math.floor(M*prob); j++) {
+          searchOrder.add(numbers.get(i));
+        }
+      }
+    }
 
     Collections.shuffle(searchOrder);
     return searchOrder;
@@ -218,7 +250,7 @@ public class Main {
    *
    * @param filename El nombre del archivo donde se encuentran los numeros
    * @param M        El número de búsquedas realizadas
-   * @param use un string que indica qué arreglo se está usando para las probabilidades
+   * @param use un string que indica qué arreglo se está usando para las probabilidades.
    */
   public static void searchB(String filename, int M, String use) {
 
@@ -232,7 +264,7 @@ public class Main {
       int act_limit = (int) (numbers.size() * act_dec_test);
 
       // La lista con los valores a buscar
-      ArrayList<Integer> searchOrder = generateProb(act_limit, M, use);
+      ArrayList<Integer> searchOrder = generateProb(act_limit, i, M, use);
 
       long totalSearchTime = 0;
 
@@ -272,12 +304,12 @@ public class Main {
     int N = (int) Math.pow(10, 6);
     // El número de búsquedas realizadas
     int M = 100 * N;
-    generateTestingNumbers(N);
+    //generateTestingNumbers(N);
 
     // Se insertan los valores dec_test
     // Seleccionar aquel o aquellos tramos que se quiera testear
     // El resto mantenerlos comentados
-    //dec_test.add(0.1);
+    dec_test.add(0.1);
     //dec_test.add(0.2);
     //dec_test.add(0.3);
     //dec_test.add(0.4);
@@ -289,7 +321,7 @@ public class Main {
     //dec_test.add(1.0);
 
     // Se insertan las constantes para cada valor de dec_test
-    //ctes.add(1.00001);
+    ctes.add(1.00001);
     //ctes.add(1.000005);
     //ctes.add(1.00000333);
     //ctes.add(1.0000025);
@@ -301,15 +333,15 @@ public class Main {
     //ctes.add(1.000001);
 
     // Se crea 1 arbol para cada dec_test
-    //createTrees();
+    createTrees();
 
     // TESTEAR 1 EXPERIMENTO A LA VEZ
 
-    //reader.read("inputs/numbers.txt", numbers);
+    reader.read("inputs/numbers.txt", numbers);
 
     // Testeo para el experimento 1
-    //insertA();
-    //searchA("results/splay1.txt", M);
+    insertA();
+    searchA("results/splay1.txt", M);
 
     // Testeo para el experimento 2
     // insertA();
