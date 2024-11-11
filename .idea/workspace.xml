@@ -7,6 +7,7 @@
     <list default="true" id="ef13e48c-5161-4b31-81dc-67edf19b693d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/trees/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/trees/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/trees/SplayTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/trees/SplayTree.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +104,7 @@
       <workItem from="1731093410271" duration="8596000" />
       <workItem from="1731122010433" duration="2857000" />
       <workItem from="1731189406435" duration="12202000" />
-      <workItem from="1731283482568" duration="4747000" />
+      <workItem from="1731283482568" duration="9164000" />
     </task>
     <servers />
   </component>
@@ -122,11 +123,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/trees/Main.java</url>
           <line>102</line>
           <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/trees/Main.java</url>
-          <line>447</line>
-          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

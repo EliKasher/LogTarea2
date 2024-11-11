@@ -137,7 +137,6 @@ public class Main {
 
       // Insertamos los N*dec_test números 1 por 1
       for (int j = 0; j < act_limit; j++) {
-        System.out.println(j);
         int act = numbers.get(j);
         act_tree.insert(act);
       }
@@ -554,11 +553,11 @@ public class Main {
 
     // Testeo para el experimento 2 ST
     //System.out.println("Insertando");
-    // insertAST();
+    //insertAST();
     //System.out.println("Inserción OK");
 
     //System.out.println("Buscando");
-    // searchBST("results/splay2.txt","A");
+    //searchBST("results/splay2.txt","A");
     //System.out.println("Búsqueda OK");
 
     // Testeo para el experimento 2 ABB
@@ -572,15 +571,14 @@ public class Main {
 
     // Testeo para el experimento 3 ST
     //System.out.println("Insertando");
-    // insertBST();
+    //insertBST();
     //System.out.println("Inserción OK");
 
     //System.out.println("Buscando");
-    // searchAST("results/splay3.txt");
+    //searchAST("results/splay3.txt");
     //System.out.println("Búsqueda OK");
 
-
-    // Testeo para el experimento 3
+    // Testeo para el experimento 3 ABB
     System.out.println("Insertando");
     insertBABB();
     System.out.println("Inserción OK");
@@ -600,11 +598,11 @@ public class Main {
 
     // Testeo para el experimento 4 ABB
     //System.out.println("Insertando");
-    // insertCABB();
+    //insertCABB();
     //System.out.println("Inserción OK");
 
     //System.out.println("Buscando");
-    // searchBABB("results/abb4.txt","C");
+    //searchBABB("results/abb4.txt","C");
     //System.out.println("Búsqueda OK");
   }
 }

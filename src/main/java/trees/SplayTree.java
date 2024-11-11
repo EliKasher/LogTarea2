@@ -27,7 +27,7 @@ public class SplayTree {
    * @param p El nodo padre, al que se le aplica la rotación
    * @param x El nodo hijo, al que se pone a la raíz
    */
-  public void zag(SplayNode p, SplayNode x) {
+  public void zag(SplayNode x, SplayNode p) {
     if (p.parent != null) {
       // El padre está a la izq de su padre
       if (p == p.parent.left) {
@@ -151,26 +151,23 @@ public class SplayTree {
         if (parentNode.right == x) {
           // left rotation
           zag(x,parentNode);
-          continue;
-        } if (parentNode.left == x) {
+        } else {
           // right rotation
           zig(x,parentNode);
         }
       } else {
         // Caso 2: Hay abuelo
-        if (grandParentNode.left != null) {
-          if (grandParentNode.left.left == x) { // el nodo de x es abuelo.left.left
+        if (grandParentNode.left == parentNode) {
+          if (parentNode.left == x) { // el nodo de x es abuelo.left.left
             zigzig(grandParentNode, parentNode, x);
-            continue;
-          } if (grandParentNode.left.right == x) { // el nodo de x es abuelo.left.right
+          } else { // el nodo de x es abuelo.left.right
             zagzig(x);
           }
-        } else if (grandParentNode.right != null) {
-          if (grandParentNode.right.left == x)  { // el nodo de x es abuelo.right.left
-            zigzag(x);
-            continue;
-          } if (grandParentNode.right.right == x) { // el nodo de x es abuelo.right.right
+        } else {
+          if (parentNode.right == x)  { // el nodo de x es abuelo.right.left
             zagzag(grandParentNode, parentNode, x);
+          } else { // el nodo de x es abuelo.right.right
+            zigzag(x);
           }
         }
       }
@@ -187,6 +184,14 @@ public class SplayTree {
    * @return True si encuentra x.
    */
   public boolean search(int x) {
+    if (root != null && root.value == x) {
+      return true;
+    }
+
+    if (root == null) {
+      return false;
+    }
+
     SplayNode prevNode = null;
     SplayNode actNode = root;
 
@@ -207,9 +212,7 @@ public class SplayTree {
 
     // Si se llega a un nodo nulo, es porque no se encontró
     // Se hace splay del último nodo
-    if (prevNode != null) {
-      splay(prevNode);
-    }
+    splay(prevNode);
 
     return false;
   }
@@ -221,6 +224,10 @@ public class SplayTree {
    * @return El árbol con x insertado.
    */
   public SplayNode insert(int x) {
+    if (search(x)) {
+      return root;
+    }
+
     // El nodo actual
     SplayNode actNode = root;
     // El nodo padre
@@ -245,8 +252,6 @@ public class SplayTree {
         actNode = actNode.left;
       } else if (actNode.value < x) { // Si es mayor al val actual va a la derecha
         actNode = actNode.right;
-      } else { // Es igual
-        return root; // Ya existe
       }
     }
 
