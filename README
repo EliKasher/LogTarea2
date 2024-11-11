@@ -22,7 +22,7 @@ Este proyecto contiene los archivos necesarios para poder realizar búsquedas Sp
 
 7. Al ejecutar el archivo, se construirán los respectivos árboles con el tamaño de input seleccionado como se explica en Main.java y seleccionar el experimento a realizar. Automáticamente se realizarán las inserciones y búsquedas en cada uno, las cuales vienen predefinidas por el archivo inputs/numbers.txt.
 
-8. Los resultados quedarán almacenados en la carpeta results. (Ejemplo: results/inserts_10.txt ,para inserciones en c_max hashes para cada c_max creado y con un input de tamaño 2^10)
+8. Los resultados quedarán almacenados en la carpeta results. (Ejemplo: results/splay1.txt, para el experimento 1 de splay trees, para los N seleccionados)
 
 #Autores
 
