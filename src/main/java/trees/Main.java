@@ -122,7 +122,7 @@ public class Main {
   /**
    * Se inserta los valores de acuerdo al criterio de experimentación 1
    */
-  public static void insertA() {
+  public static void insertAST() {
     // Se randomizan los valores
     Collections.shuffle(numbers);
 
@@ -143,9 +143,32 @@ public class Main {
   }
 
   /**
+   * Se inserta los valores de acuerdo al criterio de experimentación 1
+   */
+  public static void insertAABB() {
+    // Se randomizan los valores
+    Collections.shuffle(numbers);
+
+    // Para cada dec_test inserción en su SplayTree correspondiente
+    for (int i = 0; i < dec_test.size(); i++) {
+      // El arbol actual para el dec_test*N hasta el que se testea
+      ABBTree act_tree = abb.get(i);
+      double act_dec_test = dec_test.get(i);
+      int act_limit = (int) (numbers.size() * act_dec_test);
+
+      // Insertamos los N*dec_test números 1 por 1
+      for (int j = 0; j < act_limit; j++) {
+        System.out.println(j);
+        int act = numbers.get(j);
+        act_tree.insert(act);
+      }
+    }
+  }
+
+  /**
    * Se inserta los valores de acuerdo al criterio de experimentación 3
    */
-  public static void insertB() {
+  public static void insertBST() {
     // Se ordenan los valores
     Collections.sort(numbers);
 
@@ -165,9 +188,31 @@ public class Main {
   }
 
   /**
+   * Se inserta los valores de acuerdo al criterio de experimentación 3
+   */
+  public static void insertBABB() {
+    // Se ordenan los valores
+    Collections.sort(numbers);
+
+    // Para cada dec_test inserción en su SplayTree correspondiente
+    for (int i = 0; i < dec_test.size(); i++) {
+      // El arbol actual para el dec_test*N hasta el que se testea
+      ABBTree act_tree = abb.get(i);
+      double act_dec_test = dec_test.get(i);
+      int act_limit = (int) (numbers.size() * act_dec_test);
+
+      // Insertamos los N*dec_test números 1 por 1
+      for (int j = 0; j < act_limit; j++) {
+        int act = numbers.get(j);
+        act_tree.insert(act);
+      }
+    }
+  }
+
+  /**
    * Se inserta los valores de acuerdo al criterio de experimentación 4
    */
-  public static void insertC() {
+  public static void insertCST() {
     // Se ordena la lista
     Collections.sort(numbers);
 
@@ -196,15 +241,46 @@ public class Main {
   }
 
   /**
+   * Se inserta los valores de acuerdo al criterio de experimentación 4
+   */
+  public static void insertCABB() {
+    // Se ordena la lista
+    Collections.sort(numbers);
+
+    // Para cada dec_test inserción en su SplayTree correspondiente
+    for (int i = 0; i < dec_test.size(); i++) {
+      // El arbol actual para el dec_test*N hasta el que se testea
+      ABBTree act_tree = abb.get(i);
+      double act_dec_test = dec_test.get(i);
+      int act_limit = (int) (numbers.size() * act_dec_test);
+      // Nueva lista desordenada para dec_test actual
+      ArrayList<Integer> cDec = new ArrayList<>();
+
+      // Insertamos los N*dec_test números 1 por 1
+      for (int j = 0; j < act_limit; j++) {
+        int act = numbers.get(j);
+
+        // Se inserta el valor a la lista cDec
+        cDec.add(act);
+        // Se inserta el valor al arbol
+        act_tree.insert(act);
+      }
+
+      Collections.shuffle(cDec);
+      c.add(cDec);
+    }
+  }
+
+  /**
    * Toma la lista de N números y los lee hasta determinados dec_test*N.
    * Luego inserta los N*dec_test valores al SplayTree.
    * Hace M/N*dec_test búsquedas en cada arbol, de manera aleatoria.
-   * Escribe los resultados a un archivo de texto en la carpeta results/splayA
+   * Escribe los resultados a un archivo de texto en la carpeta filename
    *
    * @param filename El nombre del archivo donde se guardan los resultados
    * @param M        El número de búsquedas realizadas
    */
-  public static void searchA(String filename, int M) {
+  public static void searchAST(String filename, int M) {
 
     write.write(filename, "Costo Promedio de Búsqueda");
 
@@ -244,6 +320,57 @@ public class Main {
     }
   }
 
+
+  /**
+   * Toma la lista de N números y los lee hasta determinados dec_test*N.
+   * Luego inserta los N*dec_test valores al ABB.
+   * Hace M/N*dec_test búsquedas en cada arbol, de manera aleatoria.
+   * Escribe los resultados a un archivo de texto en la carpeta filename
+   *
+   * @param filename El nombre del archivo donde se guardan los resultados
+   * @param M        El número de búsquedas realizadas
+   */
+  public static void searchAABB(String filename, int M) {
+
+    write.write(filename, "Costo Promedio de Búsqueda");
+
+    // Para cada dec_test experimentamos la inserción en su ABBTree correspondiente y recopilamos resultados
+    for (int i = 0; i < dec_test.size(); i++) {
+      // El arbol actual para el dec_test*N hasta el que se testea
+      ABBTree act_tree = abb.get(i);
+      double act_dec_test = dec_test.get(i);
+      int act_limit = (int) (numbers.size() * act_dec_test);
+
+      // La lista con los valores a buscar randomizada
+      ArrayList<Integer> searchOrder = generateSearchOrder(act_limit, M);
+
+      long totalSearchTime = 0;
+
+      long initialTime = System.nanoTime();
+      // Se busca M/N veces cada valor
+      for (Integer integer : searchOrder) {
+        long startTime = System.nanoTime();
+        act_tree.search(integer);
+        long endTime = System.nanoTime();
+
+        // duracion de la busqueda en nanosegundos
+        long duration = endTime - startTime;
+        totalSearchTime += duration;
+      }
+      long finalTime = System.nanoTime();
+      double totalTime = (finalTime - initialTime) / 1e9;
+
+      double avgSearch = ((double) totalSearchTime / act_limit) / 1e9;
+
+      // Luego de las inserciones y búsqueda se escriben los resultados
+      write.write(filename, act_dec_test + ": " + avgSearch + " seg");
+      write.write(filename, "+++++++++++++++++++++++++++++++++++++++++");
+
+      System.out.println("Tiempo total: " + totalTime + " segundos");
+    }
+  }
+
+
   /**
    * Toma la lista de N números y los lee hasta determinados dec_test*N.
    * Luego inserta los N*dec_test valores al SplayTree.Y hace M búsquedas.
@@ -253,7 +380,7 @@ public class Main {
    * @param M        El número de búsquedas realizadas
    * @param use un string que indica qué arreglo se está usando para las probabilidades.
    */
-  public static void searchB(String filename, int M, String use) {
+  public static void searchBST(String filename, int M, String use) {
 
     write.write(filename, "Costo Promedio de Búsqueda");
 
@@ -292,6 +419,58 @@ public class Main {
       System.out.println("Tiempo total: " + totalTime + " segundos");
     }
   }
+
+
+
+    /**
+     * Toma la lista de N números y los lee hasta determinados dec_test*N.
+     * Luego inserta los N*dec_test valores al ABBTree.Y hace M búsquedas.
+     * Escribe los resultados a un archivo de texto en la carpeta filename
+     *
+     * @param filename El nombre del archivo donde se encuentran los numeros
+     * @param M        El número de búsquedas realizadas
+     * @param use un string que indica qué arreglo se está usando para las probabilidades.
+     */
+    public static void searchBABB(String filename, int M, String use) {
+
+      write.write(filename, "Costo Promedio de Búsqueda");
+
+      // Para cada dec_test experimentamos la inserción en su SplayTree correspondiente y recopilamos resultados
+      for (int i = 0; i < dec_test.size(); i++) {
+        // El arbol actual para el dec_test*N hasta el que se testea
+        ABBTree act_tree = abb.get(i);
+        double act_dec_test = dec_test.get(i);
+        int act_limit = (int) (numbers.size() * act_dec_test);
+
+        // La lista con los valores a buscar
+        ArrayList<Integer> searchOrder = generateProb(act_limit, i, M, use);
+
+        long totalSearchTime = 0;
+
+        long initialTime = System.nanoTime();
+        // Se busca M/N veces cada valor
+        for (Integer integer : searchOrder) {
+          long startTime = System.nanoTime();
+          act_tree.search(integer);
+          long endTime = System.nanoTime();
+
+          // duracion de la busqueda en nanosegundos
+          long duration = endTime - startTime;
+          totalSearchTime += duration;
+        }
+        long finalTime = System.nanoTime();
+        double totalTime = (finalTime - initialTime) / 1e9;
+
+        double avgSearch = ((double) totalSearchTime / act_limit) / 1e9;
+
+        // Luego de las inserciones y búsqueda se escriben los resultados
+        write.write(filename, act_dec_test + ": " + avgSearch + " seg");
+        write.write(filename, "+++++++++++++++++++++++++++++++++++++++++");
+
+        System.out.println("Tiempo total: " + totalTime + " segundos");
+      }
+    }
+
 
   /**
    * Ejecuta los tests para generar los árboles desde 2^10 hasta 2^25 y realizar 100 queries
@@ -348,40 +527,77 @@ public class Main {
 
     System.out.println("Números OK");
 
-    // Testeo para el experimento 1
+    // Testeo para el experimento 1 ST
+    //System.out.println("Insertando");
+    //insertAST();
+    //System.out.println("Inserción OK");
+
+    //System.out.println("Buscando");
+    //searchAST("results/splay1.txt", M);
+    //System.out.println("Búsqueda OK");
+
+    // Testeo para el experimento 1 ABB
     System.out.println("Insertando");
-    insertA();
+    insertAABB();
     System.out.println("Inserción OK");
 
     System.out.println("Buscando");
-    searchA("results/splay1.txt", M);
+    searchAABB("results/abb1.txt", M);
     System.out.println("Búsqueda OK");
 
-    // Testeo para el experimento 2
+    // Testeo para el experimento 2 ST
     //System.out.println("Insertando");
-    // insertA();
+    // insertAST();
     //System.out.println("Inserción OK");
 
     //System.out.println("Buscando");
-    // searchB("results/splay2.txt", M, "A");
+    // searchBST("results/splay2.txt", M, "A");
     //System.out.println("Búsqueda OK");
+
+    // Testeo para el experimento 2 ABB
+    //System.out.println("Insertando");
+    // insertAABB();
+    //System.out.println("Inserción OK");
+
+    //System.out.println("Buscando");
+    // searchBABB("results/abb2.txt", M, "A");
+    //System.out.println("Búsqueda OK");
+
+    // Testeo para el experimento 3 ST
+    //System.out.println("Insertando");
+    // insertBST();
+    //System.out.println("Inserción OK");
+
+    //System.out.println("Buscando");
+    // searchAST("results/splay3.txt", M);
+    //System.out.println("Búsqueda OK");
+
 
     // Testeo para el experimento 3
     //System.out.println("Insertando");
-    // insertB();
+    // insertBABB();
     //System.out.println("Inserción OK");
 
     //System.out.println("Buscando");
-    // searchA("results/splay3.txt", M);
+    // searchAABB("results/abb3.txt", M);
     //System.out.println("Búsqueda OK");
 
-    // Testeo para el experimento 4
+    // Testeo para el experimento 4 ST
     //System.out.println("Insertando");
-    // insertC();
+    // insertCST();
     //System.out.println("Inserción OK");
 
     //System.out.println("Buscando");
-    // searchB("results/splay4.txt", M, "C");
+    // searchBST("results/splay4.txt", M, "C");
+    //System.out.println("Búsqueda OK");
+
+    // Testeo para el experimento 4 ABB
+    //System.out.println("Insertando");
+    // insertCABB();
+    //System.out.println("Inserción OK");
+
+    //System.out.println("Buscando");
+    // searchBABB("results/abb4.txt", M, "C");
     //System.out.println("Búsqueda OK");
   }
 }
