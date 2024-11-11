@@ -16,6 +16,8 @@ public class Main {
   static ArrayList<Double> dec_test = new ArrayList<>();
   // La lista de numeros que se utilizarán para testear insert
   static ArrayList<Integer> numbers = new ArrayList<>();
+  // La lista de numeros que se utilizarán para testear la búsqueda
+  static ArrayList<Integer> M = new ArrayList<>();
   // La lista de lista numeros para testear por dec_test desordenada
   static ArrayList<ArrayList<Integer>> c = new ArrayList<>();
   // La lista de constantes para cada N por dec_test
@@ -49,16 +51,16 @@ public class Main {
 
   /**
    * @param actLimit El límite de números a leer
-   * @param M        El número de búsquedas a realizar para cada valor
+   * @param actM        El número de búsquedas a realizar para cada valor
    * @return un arreglo donde para cada valor de numbers para actLimit números,
    * aparezcan actLimit/M veces en un orden aleatorio
    */
-  public static ArrayList<Integer> generateSearchOrder(int actLimit, int M) {
+  public static ArrayList<Integer> generateSearchOrder(int actLimit, int actM) {
     ArrayList<Integer> searchOrder = new ArrayList<>();
 
     // Para cada valor i-esimo se añade M/actLimit veces
     for (int i = 0; i < actLimit; i++) {
-      for (int j = 0; j < actLimit / M; j++) {
+      for (int j = 0; j < actM/actLimit; j++) {
         searchOrder.add(numbers.get(i));
       }
     }
@@ -82,11 +84,11 @@ public class Main {
    *                 determinado por N*act_dec_test.
    * @param index El índice correspondiente a la constante que se debe aplicar
    *              para mantener la probabilidad entre [0,1].
-   * @param M El número de veces que se debe buscar cada elemento.
+   * @param actM El número de veces que se debe buscar cada elemento.
    * @param use un string que indica qué arreglo se está usando para las probabilidades.
    * @return La lista con elementos a buscar, determinado por una probabilidad f(i), desordenada.
    */
-  public static ArrayList<Integer> generateProb(int actLimit, int index, int M, String use) {
+  public static ArrayList<Integer> generateProb(int actLimit, int index, int actM, String use) {
     ArrayList<Integer> searchOrder = new ArrayList<>();
 
     if (use.equals("C")) {
@@ -98,17 +100,17 @@ public class Main {
         // se calcula la probabilidad
         double prob = f(ctes.get(index), i);
         // se añade el valor floor(M*prob) veces
-        for (int j = 0; j < Math.floor(M*prob); j++) {
+        for (int j = 0; j < Math.floor(actM*prob); j++) {
           searchOrder.add(actList.get(i));
         }
       }
-    } if (use.equals("B")){
+    } if (use.equals("A")) {
       // Para cada valor i-esimo se añade f(i) veces
       for (int i = 0; i < actLimit; i++) {
         // se calcula la probabilidad
         double prob = f(ctes.get(index), i);
         // se añade el valor floor(M*prob) veces
-        for (int j = 0; j < Math.floor(M*prob); j++) {
+        for (int j = 0; j < Math.floor(actM*prob); j++) {
           searchOrder.add(numbers.get(i));
         }
       }
@@ -158,7 +160,6 @@ public class Main {
 
       // Insertamos los N*dec_test números 1 por 1
       for (int j = 0; j < act_limit; j++) {
-        System.out.println(j);
         int act = numbers.get(j);
         act_tree.insert(act);
       }
@@ -278,9 +279,8 @@ public class Main {
    * Escribe los resultados a un archivo de texto en la carpeta filename
    *
    * @param filename El nombre del archivo donde se guardan los resultados
-   * @param M        El número de búsquedas realizadas
    */
-  public static void searchAST(String filename, int M) {
+  public static void searchAST(String filename) {
 
     write.write(filename, "Costo Promedio de Búsqueda");
 
@@ -290,9 +290,10 @@ public class Main {
       SplayTree act_tree = st.get(i);
       double act_dec_test = dec_test.get(i);
       int act_limit = (int) (numbers.size() * act_dec_test);
+      int actM = M.get(i);
 
       // La lista con los valores a buscar randomizada
-      ArrayList<Integer> searchOrder = generateSearchOrder(act_limit, M);
+      ArrayList<Integer> searchOrder = generateSearchOrder(act_limit, actM);
 
       long totalSearchTime = 0;
 
@@ -328,9 +329,8 @@ public class Main {
    * Escribe los resultados a un archivo de texto en la carpeta filename
    *
    * @param filename El nombre del archivo donde se guardan los resultados
-   * @param M        El número de búsquedas realizadas
    */
-  public static void searchAABB(String filename, int M) {
+  public static void searchAABB(String filename) {
 
     write.write(filename, "Costo Promedio de Búsqueda");
 
@@ -340,9 +340,10 @@ public class Main {
       ABBTree act_tree = abb.get(i);
       double act_dec_test = dec_test.get(i);
       int act_limit = (int) (numbers.size() * act_dec_test);
+      int actM = M.get(i);
 
       // La lista con los valores a buscar randomizada
-      ArrayList<Integer> searchOrder = generateSearchOrder(act_limit, M);
+      ArrayList<Integer> searchOrder = generateSearchOrder(act_limit, actM);
 
       long totalSearchTime = 0;
 
@@ -350,6 +351,7 @@ public class Main {
       // Se busca M/N veces cada valor
       for (Integer integer : searchOrder) {
         long startTime = System.nanoTime();
+
         act_tree.search(integer);
         long endTime = System.nanoTime();
 
@@ -377,10 +379,9 @@ public class Main {
    * Escribe los resultados a un archivo de texto en la carpeta filename
    *
    * @param filename El nombre del archivo donde se encuentran los numeros
-   * @param M        El número de búsquedas realizadas
    * @param use un string que indica qué arreglo se está usando para las probabilidades.
    */
-  public static void searchBST(String filename, int M, String use) {
+  public static void searchBST(String filename, String use) {
 
     write.write(filename, "Costo Promedio de Búsqueda");
 
@@ -390,9 +391,10 @@ public class Main {
       SplayTree act_tree = st.get(i);
       double act_dec_test = dec_test.get(i);
       int act_limit = (int) (numbers.size() * act_dec_test);
+      int actM = M.get(i);
 
       // La lista con los valores a buscar
-      ArrayList<Integer> searchOrder = generateProb(act_limit, i, M, use);
+      ArrayList<Integer> searchOrder = generateProb(act_limit, i, actM, use);
 
       long totalSearchTime = 0;
 
@@ -428,10 +430,9 @@ public class Main {
      * Escribe los resultados a un archivo de texto en la carpeta filename
      *
      * @param filename El nombre del archivo donde se encuentran los numeros
-     * @param M        El número de búsquedas realizadas
      * @param use un string que indica qué arreglo se está usando para las probabilidades.
      */
-    public static void searchBABB(String filename, int M, String use) {
+    public static void searchBABB(String filename, String use) {
 
       write.write(filename, "Costo Promedio de Búsqueda");
 
@@ -441,9 +442,10 @@ public class Main {
         ABBTree act_tree = abb.get(i);
         double act_dec_test = dec_test.get(i);
         int act_limit = (int) (numbers.size() * act_dec_test);
+        int actM = M.get(i);
 
         // La lista con los valores a buscar
-        ArrayList<Integer> searchOrder = generateProb(act_limit, i, M, use);
+        ArrayList<Integer> searchOrder = generateProb(act_limit, i, actM, use);
 
         long totalSearchTime = 0;
 
@@ -482,8 +484,7 @@ public class Main {
     // Generamos los numeros para 10^6
     // Basta crear un archivo para 10^6 y para testear el resto, se lee hasta la 10^6 * decimal
     int N = (int) Math.pow(10, 6);
-    // El número de búsquedas realizadas
-    int M = 100 * N;
+
     //generateTestingNumbers(N);
 
     // Se insertan los valores dec_test
@@ -491,28 +492,34 @@ public class Main {
     // El resto mantenerlos comentados
     System.out.println("Guardando dec_test");
     dec_test.add(0.1);
-    //dec_test.add(0.2);
-    //dec_test.add(0.3);
-    //dec_test.add(0.4);
-    //dec_test.add(0.5);
-    //dec_test.add(0.6);
-    //dec_test.add(0.7);
-    //dec_test.add(0.8);
-    //dec_test.add(0.9);
-    //dec_test.add(1.0);
+    dec_test.add(0.2);
+    dec_test.add(0.3);
+    dec_test.add(0.4);
+    dec_test.add(0.5);
+    dec_test.add(0.6);
+    dec_test.add(0.7);
+    dec_test.add(0.8);
+    dec_test.add(0.9);
+    dec_test.add(1.0);
+
+    for (Double aDouble : dec_test) {
+      // El número de búsquedas realizadas
+      int m = (int) (100 * aDouble * N);
+      M.add(m);
+    }
 
     System.out.println("Guardando ctes");
     // Se insertan las constantes para cada valor de dec_test
     ctes.add(1.00001);
-    //ctes.add(1.000005);
-    //ctes.add(1.00000333);
-    //ctes.add(1.0000025);
-    //ctes.add(1.000002);
-    //ctes.add(1.00000167);
-    //ctes.add(1.00000143);
-    //ctes.add(1.00000125);
-    //ctes.add(1.00000111);
-    //ctes.add(1.000001);
+    ctes.add(1.000005);
+    ctes.add(1.00000333);
+    ctes.add(1.0000025);
+    ctes.add(1.000002);
+    ctes.add(1.00000167);
+    ctes.add(1.00000143);
+    ctes.add(1.00000125);
+    ctes.add(1.00000111);
+    ctes.add(1.000001);
 
     System.out.println("Creando Arboles");
 
@@ -533,17 +540,17 @@ public class Main {
     //System.out.println("Inserción OK");
 
     //System.out.println("Buscando");
-    //searchAST("results/splay1.txt", M);
+    //searchAST("results/splay1.txt");
     //System.out.println("Búsqueda OK");
 
     // Testeo para el experimento 1 ABB
-    System.out.println("Insertando");
-    insertAABB();
-    System.out.println("Inserción OK");
+    //System.out.println("Insertando");
+    //insertAABB();
+    //System.out.println("Inserción OK");
 
-    System.out.println("Buscando");
-    searchAABB("results/abb1.txt", M);
-    System.out.println("Búsqueda OK");
+    //System.out.println("Buscando");
+    //searchAABB("results/abb1.txt");
+    //System.out.println("Búsqueda OK");
 
     // Testeo para el experimento 2 ST
     //System.out.println("Insertando");
@@ -551,16 +558,16 @@ public class Main {
     //System.out.println("Inserción OK");
 
     //System.out.println("Buscando");
-    // searchBST("results/splay2.txt", M, "A");
+    // searchBST("results/splay2.txt","A");
     //System.out.println("Búsqueda OK");
 
     // Testeo para el experimento 2 ABB
     //System.out.println("Insertando");
-    // insertAABB();
+    //insertAABB();
     //System.out.println("Inserción OK");
 
     //System.out.println("Buscando");
-    // searchBABB("results/abb2.txt", M, "A");
+    //searchBABB("results/abb2.txt","A");
     //System.out.println("Búsqueda OK");
 
     // Testeo para el experimento 3 ST
@@ -569,18 +576,18 @@ public class Main {
     //System.out.println("Inserción OK");
 
     //System.out.println("Buscando");
-    // searchAST("results/splay3.txt", M);
+    // searchAST("results/splay3.txt");
     //System.out.println("Búsqueda OK");
 
 
     // Testeo para el experimento 3
-    //System.out.println("Insertando");
-    // insertBABB();
-    //System.out.println("Inserción OK");
+    System.out.println("Insertando");
+    insertBABB();
+    System.out.println("Inserción OK");
 
-    //System.out.println("Buscando");
-    // searchAABB("results/abb3.txt", M);
-    //System.out.println("Búsqueda OK");
+    System.out.println("Buscando");
+    searchAABB("results/abb3.txt");
+    System.out.println("Búsqueda OK");
 
     // Testeo para el experimento 4 ST
     //System.out.println("Insertando");
@@ -588,7 +595,7 @@ public class Main {
     //System.out.println("Inserción OK");
 
     //System.out.println("Buscando");
-    // searchBST("results/splay4.txt", M, "C");
+    // searchBST("results/splay4.txt", "C");
     //System.out.println("Búsqueda OK");
 
     // Testeo para el experimento 4 ABB
@@ -597,7 +604,7 @@ public class Main {
     //System.out.println("Inserción OK");
 
     //System.out.println("Buscando");
-    // searchBABB("results/abb4.txt", M, "C");
+    // searchBABB("results/abb4.txt","C");
     //System.out.println("Búsqueda OK");
   }
 }
