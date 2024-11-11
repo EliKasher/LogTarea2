@@ -24,64 +24,107 @@ public class SplayTree {
 
   /**
    * Rotación a la izquierda del árbol root, que hace el hijo derecho el padre.
-   * @return El árbol con una rotación a la izquierda.
+   * @param p El nodo padre, al que se le aplica la rotación
+   * @param x El nodo hijo, al que se pone a la raíz
    */
-  public SplayNode zag() {
-    SplayNode res = root.right;
-    root.right = res.left;
-    res.left = root;
-    return res;
+  public void zag(SplayNode p, SplayNode x) {
+    if (p.parent != null) {
+      // El padre está a la izq de su padre
+      if (p == p.parent.left) {
+        // Intercambia p con x
+        p.parent.left = x;
+      } // El padre está a la der de su padre
+      else {
+        p.parent.right = x;
+      }
+    }
+
+    // Se deja x.left a la der de p, por lo tanto cambia el padre
+    if (x.left != null) {
+      x.left.parent = p;
+    }
+    // El padre de x es es ahora el padre de p
+    x.parent = p.parent;
+    // El padre de p es ahora x
+    p.parent = x;
+    // A la der de p está el subárbol izq de x
+    p.right = x.left;
+    // A la izq de x está el padre p modificado
+    x.left = p;
   }
 
   /**
-   * Rotación a la derecha del árbol root, que hace al hijo izquierdo el padre.
-   * @return El árbol con una rotación a la derecha.
+   * Rotación a la derecha del árbol  p, que hace al hijo izquierdo el padre.
+   * @param p El nodo padre, al que se rota.
+   * @param x EL nodo hijo a quien se pone a la raíz.
    */
-  public SplayNode zig() {
-    SplayNode res = root.left;
-    root.left = res.right;
-    res.right = root;
-    return res;
+  public void zig(SplayNode x, SplayNode p) {
+    if (p.parent != null) {
+      // Se intercambia por x el hijo de p.parent
+      // Padre al a izq de su padre
+      if (p.parent.left == p) {
+        p.parent.left = x;
+      } else { // Padre a la derecha de su padre
+        p.parent.right = x;
+      }
+    }
+
+    // Como se pone p.left -> x.right, p ahora es el padre de x.right
+    if (x.right != null) {
+      x.right.parent = p;
+    }
+
+    // El padre de x es ahora el padre de p
+    x.parent = p.parent;
+    // El padre de p es ahora x
+    p.parent = x;
+    // Se cuelga de p.left -> x.right
+    p.left = x.right;
+    // p ahora cuelga de x.right
+    x.right = p;
   }
 
   /**
-   * @return La nueva raíz con la rotación zigzig aplicada.
+   * Aplica 2 zig. Primero sobre el abuelo, y luego sobre el nodo objetivo.
+   * @param g El nodo abuelo
+   * @param p El nodo padre
+   * @param x El nodo hijo
    */
-  public SplayNode zigzig() {
-    root = zig();
-    root = zig();
-
-    return root;
+  public void zigzig(SplayNode g, SplayNode p, SplayNode x) {
+    zig(p,g);
+    zig(x,p);
   }
 
   /**
-   * @return La nueva raíz con la rotación zigzag aplicada.
+   * Hace un zig, seguido de zag. Primero sobre el nodo objetivo y su padre.
+   * Luego sobre el nodo hijo y el abuelo.
+   * @param x El nodo hijo
    */
-  public SplayNode zigzag() {
-    root = zig();
-    root = zag();
-
-    return root;
+  public void zigzag(SplayNode x) {
+    zig(x, x.parent);
+    zag(x, x.parent);
   }
 
   /**
-   * @return La nueva raíz con la rotación zagzig aplicada.
+   * Hace un zag, seguido de zig. Primero sobre el nodo objetivo y su padre.
+   * Luuego, sobre el nodo hijo y el abuelo.
+   * @param x El nodo hijo
    */
-  public SplayNode zagzig() {
-    root = zag();
-    root = zig();
-
-    return root;
+  public void zagzig(SplayNode x) {
+    zag(x, x.parent);
+    zig(x, x.parent);
   }
 
   /**
-   * @return La nueva raíz con la rotación zagzag aplicada.
+   * Hace 2 zag. Primero con el padre y el abuelo. Luego con el nodo objetivo
+   * y el padre.
+   * @param p El nodo padre
+   * @param g El nodo abuelo
+   * @param x El nodo hijo
    */
-  public SplayNode zagzag() {
-    root = zag();
-    root = zag();
-
-    return root;
+  public void zagzag(SplayNode g, SplayNode p, SplayNode x) {
+    zag(p,g);
+    zag(x,p);
   }
 
   /**
@@ -91,10 +134,6 @@ public class SplayTree {
    * @return La nueva raíz del árbol.
    */
   public SplayNode splay(SplayNode x) {
-    if (root == null) {
-      return null;
-    }
-
     // z(A,B) arbol z con elemento raíz
     // A -> subarbol izq
     // B -> subarbol der
@@ -109,26 +148,35 @@ public class SplayTree {
       // Caso 1: No hay abuelo
       if (grandParentNode == null) {
         // si está a la derecha de la raíz
-        if (parentNode.right.value == x.value) {
+        if (parentNode.right == x) {
           // left rotation
-          root = zag();
-        } if (parentNode.left.value == x.value) {
+          zag(x,parentNode);
+          continue;
+        } if (parentNode.left == x) {
           // right rotation
-          root = zig();
+          zig(x,parentNode);
         }
       } else {
         // Caso 2: Hay abuelo
-        if (grandParentNode.left.left.value == x.value) { // el nodo de x es abuelo.left.left
-          root = zigzig();
-        } if (grandParentNode.left.right.value == x.value) { // el nodo de x es abuelo.left.right
-          root = zigzag();
-        } if (grandParentNode.right.left.value == x.value)  { // el nodo de x es abuelo.right.left
-          root = zagzig();
-        } if (grandParentNode.right.right.value == x.value) { // el nodo de x es abuelo.right.right
-          root = zagzag();
+        if (grandParentNode.left != null) {
+          if (grandParentNode.left.left == x) { // el nodo de x es abuelo.left.left
+            zigzig(grandParentNode, parentNode, x);
+            continue;
+          } if (grandParentNode.left.right == x) { // el nodo de x es abuelo.left.right
+            zagzig(x);
+          }
+        } else if (grandParentNode.right != null) {
+          if (grandParentNode.right.left == x)  { // el nodo de x es abuelo.right.left
+            zigzag(x);
+            continue;
+          } if (grandParentNode.right.right == x) { // el nodo de x es abuelo.right.right
+            zagzag(grandParentNode, parentNode, x);
+          }
         }
       }
     }
+
+    root = x;
 
     return root;
   }
@@ -139,13 +187,16 @@ public class SplayTree {
    * @return True si encuentra x.
    */
   public boolean search(int x) {
+    SplayNode prevNode = null;
     SplayNode actNode = root;
 
     // Mientras aún exista árbol
     while (actNode != null) {
+      prevNode = actNode;
+
       // Si el nodo actual = x, se encontró
       if (actNode.value == x) {
-        root = splay(actNode);
+        splay(actNode);
         return true;
       } else if (actNode.value > x) { // Si x es menor al valor actual
         actNode = actNode.left; // Debe estar a la izq
@@ -156,7 +207,9 @@ public class SplayTree {
 
     // Si se llega a un nodo nulo, es porque no se encontró
     // Se hace splay del último nodo
-    root = splay(actNode);
+    if (prevNode != null) {
+      splay(prevNode);
+    }
 
     return false;
   }
@@ -207,7 +260,7 @@ public class SplayTree {
     // Se le asigna su nodo padre
     temp.parent = parentNode;
 
-    root = splay(temp);
+    splay(temp);
 
     // Se devuelve el nuevo arbol
     return root;

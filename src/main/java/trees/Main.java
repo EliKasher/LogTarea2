@@ -135,6 +135,7 @@ public class Main {
 
       // Insertamos los N*dec_test números 1 por 1
       for (int j = 0; j < act_limit; j++) {
+        System.out.println(j);
         int act = numbers.get(j);
         act_tree.insert(act);
       }
@@ -309,6 +310,7 @@ public class Main {
     // Se insertan los valores dec_test
     // Seleccionar aquel o aquellos tramos que se quiera testear
     // El resto mantenerlos comentados
+    System.out.println("Guardando dec_test");
     dec_test.add(0.1);
     //dec_test.add(0.2);
     //dec_test.add(0.3);
@@ -320,6 +322,7 @@ public class Main {
     //dec_test.add(0.9);
     //dec_test.add(1.0);
 
+    System.out.println("Guardando ctes");
     // Se insertan las constantes para cada valor de dec_test
     ctes.add(1.00001);
     //ctes.add(1.000005);
@@ -332,27 +335,53 @@ public class Main {
     //ctes.add(1.00000111);
     //ctes.add(1.000001);
 
+    System.out.println("Creando Arboles");
+
     // Se crea 1 arbol para cada dec_test
     createTrees();
+
+    System.out.println("Arboles OK");
 
     // TESTEAR 1 EXPERIMENTO A LA VEZ
 
     reader.read("inputs/numbers.txt", numbers);
 
+    System.out.println("Números OK");
+
     // Testeo para el experimento 1
+    System.out.println("Insertando");
     insertA();
+    System.out.println("Inserción OK");
+
+    System.out.println("Buscando");
     searchA("results/splay1.txt", M);
+    System.out.println("Búsqueda OK");
 
     // Testeo para el experimento 2
+    //System.out.println("Insertando");
     // insertA();
+    //System.out.println("Inserción OK");
+
+    //System.out.println("Buscando");
     // searchB("results/splay2.txt", M, "A");
+    //System.out.println("Búsqueda OK");
 
     // Testeo para el experimento 3
+    //System.out.println("Insertando");
     // insertB();
+    //System.out.println("Inserción OK");
+
+    //System.out.println("Buscando");
     // searchA("results/splay3.txt", M);
+    //System.out.println("Búsqueda OK");
 
     // Testeo para el experimento 4
+    //System.out.println("Insertando");
     // insertC();
+    //System.out.println("Inserción OK");
+
+    //System.out.println("Buscando");
     // searchB("results/splay4.txt", M, "C");
+    //System.out.println("Búsqueda OK");
   }
 }
